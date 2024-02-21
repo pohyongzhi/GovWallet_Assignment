@@ -32,17 +32,93 @@ function staffExists(filePath, staffId) {
         });
     });
 }
-// function canRedeem()
-// const staffId1 = "MANAGER_T999888420B"
-// const pathName = "assests/staff-id-to-team-mapping.csv"
-const staffId = "BOSS_4QXV76PK8MM0";
-const pathName = "assests/staff-id-to-team-mapping-long.csv";
-staffExists(pathName, staffId).then(exists => {
+// This function returns the team that the staff belongs to
+function getStaffTeam(filePath, staffId) {
+    return new Promise((resolve, reject) => {
+        // Results array to store the parsed CSV data
+        const results = [];
+        // Initialize a readable stream to read data from the CSV file
+        const stream = fs_1.default.createReadStream(filePath);
+        // Transform the stream into readable format
+        stream.pipe((0, csv_parser_1.default)())
+            // Event handler for each row of data parsed
+            .on('data', (data) => {
+            // Process each row of data by pushing it into an array
+            results.push(data);
+        })
+            // Event handler when parsing is complete
+            .on('end', () => {
+            // Check if any of the elements in the results array matches the staffId
+            const matchTeam = results.find(element => element.staff_pass_id === staffId);
+            const team = matchTeam ? matchTeam.team_name : 'Error! Team does not exists!';
+            resolve(team);
+        })
+            // Catch and handle error if it occurs
+            .on('error', (error) => {
+            console.error('Error parsing the file!', error);
+            reject(error);
+        });
+    });
+}
+function canRedeem(teamName) {
+    const filePath = 'assests/redemption-data.csv';
+    return new Promise((resolve, reject) => {
+        // Results array to store the parsed CSV data
+        const results = [];
+        // Initialize a readable stream to read data from the CSV file
+        const stream = fs_1.default.createReadStream(filePath);
+        // Transform the stream into readable format
+        stream.pipe((0, csv_parser_1.default)())
+            // Event handler for each row of data parsed
+            .on('data', (data) => {
+            // Process each row of data by pushing it into an array
+            results.push(data);
+        })
+            // Event handler when parsing is complete
+            .on('end', () => {
+            // Check if team exists in the redemption-data.csv
+            const canRedeem = !results.some(element => element.team_name === teamName && element.claimed_at);
+            resolve(canRedeem);
+        })
+            // Catch and handle error if it occurs
+            .on('error', (error) => {
+            console.error('Error parsing the file!', error);
+            reject(error);
+        });
+    });
+}
+// funciton redeemGift(staff_pass_id)
+// Staff test
+// const staffId = "BOSS_4QXV76PK8MM0"
+// const pathName = "assests/staff-id-to-team-mapping-long.csv"
+// staffExists(pathName, staffId).then(exists => {
+//     if (exists) {
+//         console.log("Staff Exists");
+//     } else {
+//         console.log("Staff don't exist");
+//     }
+// }).catch(error => {
+//     console.error('Error:', error);
+// });
+// Find a team with unredeemed gift
+// const teamName = "GRYFFIsNDOR";
+// const teamName = "GRYFFINDOR";
+// canRedeem(teamName).then(exists => {
+//     if (exists) {
+//         console.log("Can redeem!");
+//     } else {
+//         console.log("Already redeem!");
+//     }
+// }).catch(error => {
+//     console.error('Error:', error);
+// });
+// Test getTeam()
+getStaffTeam("assests/staff-id-to-team-mapping-long.csv", "BOSS_ZMKJUMC03BJP").then(exists => {
     if (exists) {
-        console.log("Staff Exists");
+        console.log(exists);
     }
     else {
-        console.log("Staff don't exist");
+        console.log("Does not exists!");
     }
 }).catch(error => {
     console.error('Error:', error);
