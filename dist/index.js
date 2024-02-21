@@ -103,14 +103,20 @@ function redeemGift(staff_pass_id) {
         const staffTeamPath = 'assests/staff-id-to-team-mapping-long.csv';
         // Get the team name
         const teamName = yield getStaffTeam(staffTeamPath, staff_pass_id);
+        // Do nothing and send the representative away if the team is not eligible for redemption
+        const canRedeemResult = yield canRedeem(teamName);
+        if (!canRedeemResult) {
+            console.log("Already redeemed!");
+            return; // This will exit the redeemGift function
+        }
         const createCsvWriter = csv_writer_1.createObjectCsvWriter;
         // Specify the path to the CSV file and the headers
         const csvWriter = createCsvWriter({
             path: filePath,
             header: [
-                { id: 'staff_pass_id', title: 'STAFF_PASS_ID' },
-                { id: 'team_name', title: 'TEAM_NAME' },
-                { id: 'claimed_at', title: 'CLAIMED_AT' }
+                { id: 'staff_pass_id', title: 'staff_pass_id' },
+                { id: 'team_name', title: 'team_name' },
+                { id: 'claimed_at', title: 'claimed_at' }
             ]
         });
         // Data to be written to the CSV file
@@ -124,42 +130,8 @@ function redeemGift(staff_pass_id) {
         // Write data to the CSV file
         csvWriter
             .writeRecords(data)
-            .then(() => console.log('Data written successfully to the CSV file.'))
-            .catch(err => console.error('Error writing to CSV file:', err));
+            .then(() => console.log('Successfully redeemed!'))
+            .catch(err => console.error('Unable to redeem!', err));
     });
 }
-// Staff test
-// const staffId = "BOSS_4QXV76PK8MM0"
-// const pathName = "assests/staff-id-to-team-mapping-long.csv"
-// staffExists(pathName, staffId).then(exists => {
-//     if (exists) {
-//         console.log("Staff Exists");
-//     } else {
-//         console.log("Staff don't exist");
-//     }
-// }).catch(error => {
-//     console.error('Error:', error);
-// });
-// Find a team with unredeemed gift
-// const teamName = "GRYFFIsNDOR";
-// const teamName = "GRYFFINDOR";
-// canRedeem(teamName).then(exists => {
-//     if (exists) {
-//         console.log("Can redeem!");
-//     } else {
-//         console.log("Already redeem!");
-//     }
-// }).catch(error => {
-//     console.error('Error:', error);
-// });
-// Test getTeam()
-// getStaffTeam("assests/staff-id-to-team-mapping-long.csv", "BOSS_ZMKJUMC03BJP").then(exists => {
-//     if (exists) {
-//         console.log(exists);
-//     } else {
-//         console.log("Does not exists!");
-//     }
-// }).catch(error => {
-//     console.error('Error:', error);
-// });
 redeemGift("BOSS_DNLHLUFFJ7E9");

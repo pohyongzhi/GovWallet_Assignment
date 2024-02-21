@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsc && node dist/index.js"
+    "start": "tsc && node dist/index.js",
+    "test": "ava"
   },
   "keywords": [],
   "author": "",
@@ -14,5 +15,26 @@
     "csv-parser": "^3.0.0",
     "csv-writer": "^1.6.0",
     "typescript": "^5.3.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.9",
+    "@babel/preset-env": "^7.23.9",
+    "@babel/preset-typescript": "^7.23.3",
+    "@types/chai": "^4.3.11",
+    "@types/jest": "^29.5.12",
+    "@types/mocha": "^10.0.6",
+    "ava": "^6.1.1",
+    "babel-jest": "^29.7.0",
+    "chai": "^5.1.0",
+    "jest": "^29.7.0",
+    "mocha": "^10.3.0",
+    "ts-jest": "^29.1.2",
+    "ts-mocha": "^10.0.0",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0"
+  },
+  "ava": {
+    "extensions": ["ts"],
+    "require": ["ts-node/register"]
   }
 }
