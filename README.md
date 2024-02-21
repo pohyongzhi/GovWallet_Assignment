@@ -15,19 +15,17 @@
 
 ### Build and Run Script
 9. Update `package.json`: Change “test” script to `“start”: “tsc && node dist/index.js”` - Allows running the project with `npm run start`, which compiles and runs the code.
-
-![Node.js and TypeScript Setup](https://prod-files-secure.s3.us-west-2.amazonaws.com/d8cf524b-0cc7-4d91-92ac-996559d8cdd3/6965deac-31ad-4d05-88cf-87fe43af7427/Untitled.png)
+![Setup](md_resources/set_up.png)
 
 ### CSV Handling
 1. `npm install csv-parser @types/node` - Installs packages to read from CSV files.
 2. `npm install csv-writer` - Installs package to write into CSV files.
 
-![CSV Handling](https://prod-files-secure.s3.us-west-2.amazonaws.com/d8cf524b-0cc7-4d91-92ac-996559d8cdd3/14f482c2-56cd-456b-9411-6f249f597c30/Untitled.png)
-
 ### Additional Test Setup
-1. `npm install --save-dev babel-jest @babel/core @babel/preset-env`.
-2. `npm install --save-dev ts-jest`.
-3. `npm install --save-dev mocha chai @types/mocha @types/chai`.
+1. `npm install --save-dev ava`
+3. `npm install --save-dev ts-jest`.
+2. `npm install --save-dev babel-jest @babel/core @babel/preset-env`.
+
 
 ## Project Requirements
 
@@ -57,7 +55,7 @@
 - Returns `Already redeemed!` or `Successfully redeemed!`.
 
 ## Assumptions
-![Assumptions](https://prod-files-secure.s3.us-west-2.amazonaws.com/d8cf524b-0cc7-4d91-92ac-996559d8cdd3/3f930d88-6e20-4cbd-adfa-9c2f4cbbbb6e/Untitled.png)
+![Assumptions](md_resources/er_diagram.png)
 - A staff member can represent at most one team.
 - Each redemption is made by a single staff member from one unique team.
 
