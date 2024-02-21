@@ -1,6 +1,6 @@
 # GovWallet Assignment
 
-## This project includes 3 basic functions for checking of Staff ID a CSV file, verifying if a team can redeem their gift, and adding new redemption data for eligible teams.
+## This project includes 3 basic functions for checking of Staff ID in a CSV file, verifying if a team can redeem their gift, and adding new redemption data for eligible teams.
 
 ## Setting Up
 
