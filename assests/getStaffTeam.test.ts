@@ -1,6 +1,5 @@
 import test from 'ava';
 
-// Import staffExists using dynamic import
 import('../server/index').then(({ getStaffTeam }) => {
 
     test('Return team name if staff exists', async t => {

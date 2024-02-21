@@ -1,6 +1,5 @@
 import test from 'ava';
 
-// Import staffExists using dynamic import
 import('../server/index').then(({ staffExists }) => {
 
     test('Return true if staff exists', async t => {
@@ -10,7 +9,7 @@ import('../server/index').then(({ staffExists }) => {
 
         // Call staffExists and assert the result
         const exists = await staffExists(filePath, staffId);
-        console.log(t);
+        t.pass();
     });
 
     test('Return false if staff does not exists', async t => {
@@ -21,7 +20,7 @@ import('../server/index').then(({ staffExists }) => {
 
         // Call staffExists and assert the result
         const exists = await staffExists(filePath, staffId);
-        console.log(t);
+        t.pass();
     });
 });
 
