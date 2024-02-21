@@ -1,10 +1,20 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const csv_parser_1 = __importDefault(require("csv-parser"));
 const fs_1 = __importDefault(require("fs"));
+const csv_writer_1 = require("csv-writer");
 // This function returns false if staff does not exists
 function staffExists(filePath, staffId) {
     return new Promise((resolve, reject) => {
@@ -87,7 +97,37 @@ function canRedeem(teamName) {
         });
     });
 }
-// funciton redeemGift(staff_pass_id)
+function redeemGift(staff_pass_id) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const filePath = 'assests/redemption-data.csv';
+        const staffTeamPath = 'assests/staff-id-to-team-mapping-long.csv';
+        // Get the team name
+        const teamName = yield getStaffTeam(staffTeamPath, staff_pass_id);
+        const createCsvWriter = csv_writer_1.createObjectCsvWriter;
+        // Specify the path to the CSV file and the headers
+        const csvWriter = createCsvWriter({
+            path: filePath,
+            header: [
+                { id: 'staff_pass_id', title: 'STAFF_PASS_ID' },
+                { id: 'team_name', title: 'TEAM_NAME' },
+                { id: 'claimed_at', title: 'CLAIMED_AT' }
+            ]
+        });
+        // Data to be written to the CSV file
+        const data = [
+            {
+                staff_pass_id: staff_pass_id,
+                team_name: teamName,
+                claimed_at: Date.now()
+            }
+        ];
+        // Write data to the CSV file
+        csvWriter
+            .writeRecords(data)
+            .then(() => console.log('Data written successfully to the CSV file.'))
+            .catch(err => console.error('Error writing to CSV file:', err));
+    });
+}
 // Staff test
 // const staffId = "BOSS_4QXV76PK8MM0"
 // const pathName = "assests/staff-id-to-team-mapping-long.csv"
@@ -113,13 +153,13 @@ function canRedeem(teamName) {
 //     console.error('Error:', error);
 // });
 // Test getTeam()
-getStaffTeam("assests/staff-id-to-team-mapping-long.csv", "BOSS_ZMKJUMC03BJP").then(exists => {
-    if (exists) {
-        console.log(exists);
-    }
-    else {
-        console.log("Does not exists!");
-    }
-}).catch(error => {
-    console.error('Error:', error);
-});
+// getStaffTeam("assests/staff-id-to-team-mapping-long.csv", "BOSS_ZMKJUMC03BJP").then(exists => {
+//     if (exists) {
+//         console.log(exists);
+//     } else {
+//         console.log("Does not exists!");
+//     }
+// }).catch(error => {
+//     console.error('Error:', error);
+// });
+redeemGift("BOSS_DNLHLUFFJ7E9");

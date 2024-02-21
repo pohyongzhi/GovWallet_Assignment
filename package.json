@@ -12,6 +12,7 @@
   "dependencies": {
     "@types/node": "^20.11.19",
     "csv-parser": "^3.0.0",
+    "csv-writer": "^1.6.0",
     "typescript": "^5.3.3"
   }
 }
